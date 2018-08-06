@@ -76,7 +76,7 @@ and text based user interfaces (ncurses).
 #----------------------------------------------------------
 
 %prep
-%autosetup -p1 -S git
+%autosetup -p1
 
 %build
 ./bootstrap.sh
