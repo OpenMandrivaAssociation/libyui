@@ -4,7 +4,7 @@
 
 Name:		libyui
 Version:	3.3.3
-Release:	2
+Release:	3
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
