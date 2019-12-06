@@ -3,13 +3,13 @@
 %define develname %mklibname -d yui
 
 Name:		libyui
-Version:	3.3.3
-Release:	3
+Version:	3.6.0
+Release:	1
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		https://github.com/libyui/libyui
-Source0:	https://github.com/libyui/libyui/archive/v%{version}.tar.gz
+Source0:	https://github.com/libyui/libyui/archive/v%{version}/%{name}-%{version}.tar.gz
 # Based on https://github.com/libyui/libyui/commit/b1f593cd99fd33cc3f0cf9b4f5151f672b68d96e
 Patch0:		libyui-3.3.3-fix_gcc8.patch
 
