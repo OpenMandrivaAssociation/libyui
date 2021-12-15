@@ -14,6 +14,7 @@ Source0:	https://github.com/libyui/libyui/archive/%{name}-%{version}.tar.xz
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	doxygen
+BuildRequires:	graphviz
 BuildRequires:	ghostscript
 BuildRequires:	boost-devel
 BuildRequires:	libtool
