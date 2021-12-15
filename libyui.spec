@@ -1,22 +1,19 @@
-%define major 8
+%define major 15
 %define libname %mklibname yui %{major}
 %define develname %mklibname -d yui
 
 Name:		libyui
-Version:	3.3.3
-Release:	3
+Version:	4.2.22
+Release:	1
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		https://github.com/libyui/libyui
-Source0:	https://github.com/libyui/libyui/archive/v%{version}.tar.gz
-# Based on https://github.com/libyui/libyui/commit/b1f593cd99fd33cc3f0cf9b4f5151f672b68d96e
-Patch0:		libyui-3.3.3-fix_gcc8.patch
+Source0:	https://github.com/libyui/libyui/archive/%{name}-%{version}.tar.xz
 
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	doxygen
-BuildRequires:	texlive
 BuildRequires:	ghostscript
 BuildRequires:	boost-devel
 BuildRequires:	libtool
@@ -42,7 +39,7 @@ This package contains the library needed to run programs
 dynamically linked with libyui.
 
 %files -n %{libname}
-%dir %{_libdir}/yui
+#%%dir %{_libdir}/yui
 %dir %{_datadir}/libyui
 %{_libdir}/lib*.so.%{major}*
 
@@ -64,33 +61,33 @@ that provides the abstraction from graphical user interfaces (Qt, Gtk)
 and text based user interfaces (ncurses).
 
 %files -n %{develname}
-%dir %{_docdir}/libyui%{major}
+%dir %{_docdir}/packages/libyui%{major}
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*
 %{_includedir}/yui
-%{_libdir}/cmake/libyui
+#%%{_libdir}/cmake/libyui
 %{_datadir}/libyui/buildtools
-%doc %{_docdir}/libyui%{major}/examples
-
+%doc %{_docdir}/packages/libyui%{major}/examples/*
+%doc %{_docdir}/packages/libyui%{major}/doc/html/
 #----------------------------------------------------------
 
 %prep
 %autosetup -p1
 
 %build
-./bootstrap.sh
+
 %cmake \
-	-DYPREFIX=%{_prefix}   \
-	-DDOC_DIR=%{_docdir}   \
-	-DLIB_DIR=%{_lib}      \
-	-DSKIP_LATEX=yes       \
-	-DENABLE_WERROR:BOOL=no \
+	-DWERROR=off \
 	-DCMAKE_BUILD_TYPE=RELWITHDEBINFO \
+	-DBUILD_DOC=on \
 	-G Ninja
 
 %ninja_build
-%ninja_build docs
+
+%ninja_build doc
 
 %install
 %ninja_install -C build
 install -m0755 -d %{buildroot}/%{_libdir}/yui
+mkdir -p %{buildroot}%{_docdir}/packages/libyui%{major}/doc/html
+cp -R  build/doc/html/ %{buildroot}%{_docdir}/packages/libyui%{major}/doc/
