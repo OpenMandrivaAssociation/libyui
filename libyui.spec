@@ -3,8 +3,8 @@
 %define develname %mklibname -d yui
 
 Name:		libyui
-Version:	4.2.22
-Release:	2
+Version:	4.3.3
+Release:	1
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
