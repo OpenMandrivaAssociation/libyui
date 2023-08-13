@@ -46,6 +46,7 @@ BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Svg)
 BuildRequires:	cmake(Qt5Widgets)
 BuildRequires:	cmake(Qt5X11Extras)
+BuildRequires:	pkgconfig(libgvc)
 
 # For libyui-qt-pkg and libyui-ncurses-pkg
 BuildRequires:	cmake(zypp)
