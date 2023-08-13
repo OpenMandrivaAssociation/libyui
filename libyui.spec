@@ -40,6 +40,7 @@ BuildRequires:	pkgconfig(libmicrohttpd)
 BuildRequires:	pkgconfig(ncursesw)
 
 # For Qt
+BuildRequires:	qmake5
 BuildRequires:	cmake(Qt5Core)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Svg)
