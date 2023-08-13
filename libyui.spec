@@ -33,6 +33,7 @@ BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	boost-devel
+BuildRequires:	pkgconfig(jsoncpp)
 
 # For ncurses
 BuildRequires:	pkgconfig(ncursesw)
