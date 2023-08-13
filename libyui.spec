@@ -34,7 +34,7 @@ BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	boost-devel
 BuildRequires:	pkgconfig(jsoncpp)
-BuildRequires:	pkgconfig(microhttpd)
+BuildRequires:	pkgconfig(libmicrohttpd)
 
 # For ncurses
 BuildRequires:	pkgconfig(ncursesw)
