@@ -15,7 +15,7 @@
 
 Name:		libyui
 Version:	4.6.0
-Release:	1
+Release:	2
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
@@ -207,6 +207,7 @@ This package contains files needed only for the Qt interface
 Summary:	Python interface to libyui
 Group:		Development/Perl
 Requires:	%{libname} = %{EVRD}
+%rename python-libyui
 
 %description -n python-yui
 Python interface to libyui
