@@ -12,10 +12,11 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
+%bcond_with bootstrap
 
 Name:		libyui
 Version:	4.6.0
-Release:	2
+Release:	3
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
@@ -35,6 +36,18 @@ BuildRequires:	pkgconfig(libtirpc)
 BuildRequires:	boost-devel
 BuildRequires:	pkgconfig(jsoncpp)
 BuildRequires:	pkgconfig(libmicrohttpd)
+%if %{without bootstrap}
+# Yes, this is ugly... But with libyui-bindings
+# living inside libyui and libyui-mga living outside,
+# the way to get a proper build is
+#	- build libyui with libyui-bindings without MGA extensions
+#	- build libyui-mga against it
+#	- build libyui again so libyui-bindings can link to libyui-mga
+BuildRequires:	%{develname} = %{version}
+BuildRequires:	%{develname_ncurses} = %{version}
+BuildRequires:	%{develname_qt} = %{version}
+BuildRequires:	pkgconfig(libyui-mga)
+%endif
 
 # For ncurses
 BuildRequires:	pkgconfig(ncursesw)
@@ -272,8 +285,11 @@ for i in libyui libyui-rest-api libyui-qt libyui-qt-graph libyui-qt-pkg libyui-q
 	# "interesting" hacks in libyui-bindings that work only in
 	# Makefiles
 	%cmake \
-		-DWERROR=off \
-		-DBUILD_DOC=on \
+		-DWERROR:BOOL=OFF \
+		-DBUILD_DOC:BOOL=ON \
+%if %{without bootstrap}
+		-DWITH_MGA:BOOL=ON \
+%endif
 		-G "Unix Makefiles"
 
 	%make_build
