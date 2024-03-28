@@ -12,13 +12,13 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-%bcond_without bootstrap
+%bcond_with bootstrap
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
 
 Name:		libyui
 Version:	4.6.0
-Release:	5
+Release:	6
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
