@@ -14,6 +14,8 @@
 %global _disable_ld_no_undefined 1
 %bcond_without bootstrap
 
+%global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
+
 Name:		libyui
 Version:	4.6.0
 Release:	5
@@ -22,6 +24,7 @@ Group:		System/Libraries
 License:	LGPLv2+
 URL:		https://github.com/libyui/libyui
 Source0:	https://github.com/libyui/libyui/archive/refs/tags/%{version}.tar.gz
+Patch0:		libyui-4.6.0-c++20.patch
 
 BuildRequires:	cmake
 BuildRequires:	make

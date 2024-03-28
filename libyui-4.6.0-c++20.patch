@@ -1,0 +1,12 @@
+diff -up libyui-4.6.0/libyui-ncurses-pkg/src/NCPkgFilterSearch.cc.omv~ libyui-4.6.0/libyui-ncurses-pkg/src/NCPkgFilterSearch.cc
+--- libyui-4.6.0/libyui-ncurses-pkg/src/NCPkgFilterSearch.cc.omv~	2024-03-28 14:14:05.023611174 +0100
++++ libyui-4.6.0/libyui-ncurses-pkg/src/NCPkgFilterSearch.cc	2024-03-28 14:14:09.787721158 +0100
+@@ -217,7 +217,7 @@ bool NCPkgFilterSearch::fillSearchList(
+         q.addAttribute( zypp::sat::SolvAttr::provides );
+     if ( settings->doCheckRequires() )
+         // attribute SolvAttr::requires means "required by"
+-        q.addAttribute( zypp::sat::SolvAttr::requires );
++        q.addAttribute( zypp::sat::SolvAttr::dep_requires );
+ 
+     NCPopupInfo * info = new NCPopupInfo( wpos( (NCurses::lines()-4)/2, (NCurses::cols()-18)/2 ),
+ 					  "",
