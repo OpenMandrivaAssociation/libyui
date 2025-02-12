@@ -25,6 +25,7 @@ License:	LGPLv2+
 URL:		https://github.com/libyui/libyui
 Source0:	https://github.com/libyui/libyui/archive/refs/tags/%{version}.tar.gz
 Patch0:		libyui-4.6.0-c++20.patch
+Patch1:		libyui-4.6.2-libzypp.patch
 
 BuildRequires:	cmake
 BuildRequires:	make

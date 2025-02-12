@@ -1,0 +1,12 @@
+diff -up libyui-4.6.2/libyui-qt-pkg/src/YQPkgHistoryDialog.cc.omv~ libyui-4.6.2/libyui-qt-pkg/src/YQPkgHistoryDialog.cc
+--- libyui-4.6.2/libyui-qt-pkg/src/YQPkgHistoryDialog.cc.omv~	2025-02-12 02:13:35.127698492 +0100
++++ libyui-4.6.2/libyui-qt-pkg/src/YQPkgHistoryDialog.cc	2025-02-12 02:15:28.892575746 +0100
+@@ -170,7 +170,7 @@ YQPkgHistoryDialog::populate()
+     YQPkgHistoryItemCollector itemCollector( _datesTree, _actionsTree );
+     zypp::parser::HistoryLogReader reader( FILENAME,
+                                            zypp::parser::HistoryLogReader::Options(),
+-                                           boost::ref( itemCollector ) );
++                                           itemCollector );
+     try
+     {
+ 	reader.readAll();
