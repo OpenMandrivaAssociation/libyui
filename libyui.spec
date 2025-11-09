@@ -12,7 +12,7 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-%bcond_with bootstrap
+%bcond_without bootstrap
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
 
