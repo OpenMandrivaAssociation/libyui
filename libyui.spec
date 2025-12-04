@@ -18,7 +18,7 @@
 
 Name:		libyui
 Version:	4.6.2
-Release:	8
+Release:	10
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
@@ -26,6 +26,8 @@ URL:		https://github.com/libyui/libyui
 Source0:	https://github.com/libyui/libyui/archive/refs/tags/%{version}.tar.gz
 Patch0:		libyui-4.6.0-c++20.patch
 Patch1:		libyui-4.6.2-libzypp.patch
+Patch2:		https://github.com/libyui/libyui/commit/3ae85a40e80fea68fe404dbde47ad18f129ee967.patch
+Patch3:		https://github.com/libyui/libyui/commit/244809ef1a86c5eb0ee58df80419ba2cb41137b4.patch
 
 BuildRequires:	cmake
 BuildRequires:	make
@@ -219,6 +221,7 @@ This package contains files needed only for the Qt interface
 %{_includedir}/yui/qt-graph
 %{_libdir}/pkgconfig/libyui-qt.pc
 
+%if ! %{with bootstrap}
 #----------------------------------------------------------
 %package -n python-yui
 Summary:	Python interface to libyui
@@ -269,13 +272,20 @@ Ruby interface to libyui
 
 %files -n ruby-yui
 %{_libdir}/ruby/vendor_ruby/_yui.so
+%endif
+
+%if %{with bootstrap}
+%global libs libyui libyui-rest-api libyui-qt libyui-qt-graph libyui-qt-pkg libyui-qt-rest-api libyui-ncurses libyui-ncurses-pkg libyui-ncurses-rest-api
+%else
+%global libs libyui libyui-rest-api libyui-qt libyui-qt-graph libyui-qt-pkg libyui-qt-rest-api libyui-ncurses libyui-ncurses-pkg libyui-ncurses-rest-api libyui-bindings
+%endif
 
 #----------------------------------------------------------
 %prep
 %autosetup -p1
 
 %build
-for i in libyui libyui-rest-api libyui-qt libyui-qt-graph libyui-qt-pkg libyui-qt-rest-api libyui-ncurses libyui-ncurses-pkg libyui-ncurses-rest-api libyui-bindings; do
+for i in %{libs}; do
 	cd $i
 	if echo $i |grep -q pkg; then
 		# libzypp headers don't like clang
@@ -305,7 +315,7 @@ done
 %install
 install -m0755 -d %{buildroot}/%{_libdir}/yui
 mkdir -p %{buildroot}%{_docdir}/packages/libyui%{major}/doc/html
-for i in libyui libyui-rest-api libyui-qt libyui-qt-graph libyui-qt-pkg libyui-qt-rest-api libyui-ncurses libyui-ncurses-pkg libyui-ncurses-rest-api libyui-bindings; do
+for i in %{libs}; do
 	cd $i
 	%make_install -C build
 	[ -d build/doc/html ] && cp -R  build/doc/html/ %{buildroot}%{_docdir}/packages/libyui%{major}/doc/

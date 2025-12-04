@@ -1,0 +1,29 @@
+From 244809ef1a86c5eb0ee58df80419ba2cb41137b4 Mon Sep 17 00:00:00 2001
+From: Dominique Leuenberger <dimstar@opensuse.org>
+Date: Thu, 17 Jul 2025 09:06:33 +0200
+Subject: [PATCH] Fix dependency declaration for ruby gem
+
+---
+ libyui-bindings/swig/ruby/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libyui-bindings/swig/ruby/CMakeLists.txt b/libyui-bindings/swig/ruby/CMakeLists.txt
+index e18a2e86b..b8fd606d9 100644
+--- a/libyui-bindings/swig/ruby/CMakeLists.txt
++++ b/libyui-bindings/swig/ruby/CMakeLists.txt
+@@ -86,7 +86,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/yui.gemspec.in ${CMAKE_CURRENT_BINARY
+ 
+ SET(GEM_NAME "yui-${VERSION}.gem")
+ ADD_CUSTOM_TARGET(ruby_gem ALL DEPENDS ${GEM_NAME})
+-ADD_DEPENDENCIES(ruby_gem ${SWIG_OUTPUT})
+ 
+ ADD_CUSTOM_COMMAND (
+    OUTPUT  ${GEM_NAME}
+@@ -95,6 +94,7 @@ ADD_CUSTOM_COMMAND (
+    DEPENDS "ext"
+    DEPENDS ${rdoc_dir}
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/yui.gemspec
++   DEPENDS ${SWIG_OUTPUT}
+ )
+ 
+ #

@@ -1,0 +1,49 @@
+From 3ae85a40e80fea68fe404dbde47ad18f129ee967 Mon Sep 17 00:00:00 2001
+From: Dominique Leuenberger <dimstar@opensuse.org>
+Date: Wed, 16 Jul 2025 13:51:27 +0200
+Subject: [PATCH] Allow building with CMake 4.0
+
+Bump cmake_minumum_required to 3.10, which matches what most other modules
+in libyui use (3.5 is the minimum required to be supportable by CMake 4.0)
+
+Remove CMP0046, as CMake 4.0 no longer supports it. The OLD mode in any case
+was a workaround for 'badly written CMakeLists.txt', as it just instructed
+cmake to ignore non-existing dependenices listed in add_dependencies.
+This package does not rely on non-existing dependencies and builds perfectly
+without this policy.
+---
+ VERSION.cmake                        |  2 +-
+ libyui-bindings/CMakeLists.txt       |  5 +----
+ package/libyui-bindings.spec         |  2 +-
+ package/libyui-ncurses-pkg.spec      |  2 +-
+ package/libyui-ncurses-rest-api.spec |  2 +-
+ package/libyui-ncurses.spec          |  2 +-
+ package/libyui-qt-graph.spec         |  2 +-
+ package/libyui-qt-pkg.spec           |  2 +-
+ package/libyui-qt-rest-api.spec      |  2 +-
+ package/libyui-qt.spec               |  2 +-
+ package/libyui-rest-api.spec         |  2 +-
+ package/libyui.changes               | 15 +++++++++++++++
+ package/libyui.spec                  |  2 +-
+ 13 files changed, 27 insertions(+), 15 deletions(-)
+
+diff --git a/libyui-bindings/CMakeLists.txt b/libyui-bindings/CMakeLists.txt
+index a452c7f00..9d126155c 100644
+--- a/libyui-bindings/CMakeLists.txt
++++ b/libyui-bindings/CMakeLists.txt
+@@ -2,14 +2,11 @@
+ # CMakeLists.txt for libyui-bindings
+ #
+ 
+-cmake_minimum_required(VERSION 2.6)
++cmake_minimum_required(VERSION 3.10)
+ project( libyui-bindings )
+ 
+ if(COMMAND cmake_policy)
+   cmake_policy(SET CMP0017 NEW)
+-  if(POLICY CMP0046)
+-    cmake_policy(SET CMP0046 OLD)
+-  endif()
+ endif(COMMAND cmake_policy)
+ 
+ OPTION( BUILD_RUBY_GEM "Build Ruby GEM" YES )
