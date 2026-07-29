@@ -18,7 +18,7 @@
 
 Name:		libyui
 Version:	4.6.2
-Release:14
+Release:15
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
@@ -285,12 +285,15 @@ Ruby interface to libyui
 %autosetup -p1
 
 %build
-# ld.bfd does not accept -latomic_asneeded (OM gcc injects it)
-export LDFLAGS="$(echo ${LDFLAGS:-} | sed -e 's/-latomic_asneeded//g' -e 's/-Wl,-latomic_asneeded//g')"
+# ld.bfd does not accept -latomic_asneeded (OM gcc injects via specs)
+mkdir -p .om-stub
+echo '/* stub for bogus -latomic_asneeded */' | %{__cc} -shared -fPIC -o .om-stub/libatomic_asneeded.so -x c - -nostdlib 2>/dev/null || \
+  echo 'INPUT(-latomic)' > .om-stub/libatomic_asneeded.so
+export LIBRARY_PATH="$(pwd)/.om-stub:${LIBRARY_PATH:-}"
+export LD_LIBRARY_PATH="$(pwd)/.om-stub:${LD_LIBRARY_PATH:-}"
+export LDFLAGS="-L$(pwd)/.om-stub $(echo ${LDFLAGS:-} | sed -e 's/-latomic_asneeded//g')"
 export CFLAGS="$(echo ${CFLAGS:-%{optflags}} | sed -e 's/-latomic_asneeded//g')"
 export CXXFLAGS="$(echo ${CXXFLAGS:-%{optflags}} | sed -e 's/-latomic_asneeded//g')"
-# also neutralize in CMAKE flags
-export LDFLAGS="${LDFLAGS} -Wl,--as-needed"
 for i in %{libs}; do
 	cd $i
 	if echo $i |grep -q pkg; then
