@@ -18,7 +18,7 @@
 
 Name:		libyui
 Version:	4.6.2
-Release:13
+Release:14
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
@@ -285,6 +285,12 @@ Ruby interface to libyui
 %autosetup -p1
 
 %build
+# ld.bfd does not accept -latomic_asneeded (OM gcc injects it)
+export LDFLAGS="$(echo ${LDFLAGS:-} | sed -e 's/-latomic_asneeded//g' -e 's/-Wl,-latomic_asneeded//g')"
+export CFLAGS="$(echo ${CFLAGS:-%{optflags}} | sed -e 's/-latomic_asneeded//g')"
+export CXXFLAGS="$(echo ${CXXFLAGS:-%{optflags}} | sed -e 's/-latomic_asneeded//g')"
+# also neutralize in CMAKE flags
+export LDFLAGS="${LDFLAGS} -Wl,--as-needed"
 for i in %{libs}; do
 	cd $i
 	if echo $i |grep -q pkg; then
