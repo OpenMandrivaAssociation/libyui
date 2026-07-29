@@ -18,12 +18,13 @@
 
 Name:		libyui
 Version:	4.6.2
-Release:	17
+Release:	18
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		https://github.com/libyui/libyui
 Source0:	https://github.com/libyui/libyui/archive/refs/tags/%{version}.tar.gz
+Source1:	libyui.rpmlintrc
 Patch0:		libyui-4.6.0-c++20.patch
 Patch1:		libyui-4.6.2-libzypp.patch
 Patch2:		https://github.com/libyui/libyui/commit/3ae85a40e80fea68fe404dbde47ad18f129ee967.patch
