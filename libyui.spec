@@ -18,7 +18,7 @@
 
 Name:		libyui
 Version:	4.6.2
-Release:	19
+Release:	20
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
@@ -54,6 +54,15 @@ BuildRequires:	%{develname} = %{version}
 BuildRequires:	%{develname_ncurses} = %{version}
 BuildRequires:	%{develname_qt} = %{version}
 BuildRequires:	pkgconfig(libyui-mga)
+# For libyui-bindings (skipped in bootstrap)
+BuildRequires:	swig
+BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(ruby)
+# mono not available on all arches (e.g. aarch64)
+%ifarch x86_64 %{ix86} znver1
+BuildRequires:	pkgconfig(mono)
+%endif
+BuildRequires:	perl-devel
 %endif
 
 # For ncurses
@@ -70,13 +79,6 @@ BuildRequires:	pkgconfig(libgvc)
 
 # For libyui-qt-pkg and libyui-ncurses-pkg
 BuildRequires:	cmake(zypp)
-
-# For libyui-bindings
-BuildRequires:	swig
-BuildRequires:	pkgconfig(python3)
-BuildRequires:	pkgconfig(ruby)
-BuildRequires:	pkgconfig(mono)
-BuildRequires:	perl-devel
 
 %description
 libYUI is a library written entirely in C++ to provide an abstraction layer
@@ -242,6 +244,7 @@ Python interface to libyui
 Summary:	Perl interface to libyui
 Group:		Development/Perl
 Requires:	%{libname} = %{EVRD}
+%rename perl-libyui
 
 %description -n perl-yui
 Perl interface to libyui
@@ -251,6 +254,7 @@ Perl interface to libyui
 %{_datadir}/perl5/vendor_perl/yui.pm
 
 #----------------------------------------------------------
+%ifarch x86_64 %{ix86} znver1
 %package -n mono-yui
 Summary:	C# interface to libyui
 Group:		Development/C#
@@ -261,6 +265,7 @@ C# interface to libyui
 
 %files -n mono-yui
 %{_prefix}/lib/mono/yui
+%endif
 
 #----------------------------------------------------------
 %package -n ruby-yui
