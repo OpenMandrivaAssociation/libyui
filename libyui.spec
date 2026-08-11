@@ -12,15 +12,14 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-# Existing libyui 4.6.2-21 needs libjsoncpp.so.26, so bootstrap once
-# without the self-BRs, then rebuild normally.
-%bcond_without bootstrap
+# Use --with bootstrap only when the installed libyui is uninstallable.
+%bcond_with bootstrap
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
 
 Name:		libyui
 Version:	4.6.2
-Release:	22
+Release:	23
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
