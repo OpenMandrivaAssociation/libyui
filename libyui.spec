@@ -36,6 +36,7 @@ Patch3:		https://github.com/libyui/libyui/commit/244809ef1a86c5eb0ee58df80419ba2
 
 BuildRequires:	cmake
 BuildRequires:	make
+BuildRequires:	patchelf
 BuildRequires:	doxygen
 BuildRequires:	graphviz
 BuildRequires:	ghostscript
@@ -297,8 +298,9 @@ Ruby interface to libyui
 %build
 # ld.bfd does not accept -latomic_asneeded (OM gcc injects via specs)
 mkdir -p .om-stub
-# Linker script, not a real DSO — a real .so becomes DT_NEEDED
-echo 'INPUT(-latomic)' > .om-stub/libatomic_asneeded.so
+# Real stub so lld will link; stripped from ELF in %install
+echo '/* stub for bogus -latomic_asneeded */' | %{__cc} -shared -fPIC -o .om-stub/libatomic_asneeded.so -x c - -nostdlib 2>/dev/null || \
+	echo 'INPUT(-latomic)' > .om-stub/libatomic_asneeded.so
 export LIBRARY_PATH="$(pwd)/.om-stub:${LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="$(pwd)/.om-stub:${LD_LIBRARY_PATH:-}"
 export LDFLAGS="-L$(pwd)/.om-stub $(echo ${LDFLAGS:-} | sed -e 's/-latomic_asneeded//g')"
@@ -340,3 +342,5 @@ for i in %{libs}; do
 	[ -d build/doc/html ] && cp -R  build/doc/html/ %{buildroot}%{_docdir}/packages/libyui%{major}/doc/
 	cd ..
 done
+# gcc specs inject -latomic_asneeded; drop the resulting DT_NEEDED
+find %{buildroot} -type f -name '*.so*' -print0 | xargs -0 -r patchelf --remove-needed libatomic_asneeded.so 2>/dev/null || :
