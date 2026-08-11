@@ -12,7 +12,9 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-%bcond_with bootstrap
+# Existing libyui 4.6.2-21 needs libjsoncpp.so.26, so bootstrap once
+# without the self-BRs, then rebuild normally.
+%bcond_without bootstrap
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
 
