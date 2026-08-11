@@ -12,8 +12,11 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-# Use --with bootstrap only when the installed libyui is uninstallable.
-%bcond_with bootstrap
+# 22's Qt/ncurses libs Require a non-existent libatomic_asneeded.so
+# (OM gcc specs inject -latomic_asneeded). Bootstrap until a clean
+# library is published, then rebuild with bindings.
+%bcond_without bootstrap
+%global __requires_exclude ^libatomic_asneeded\\.so.*
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
 
@@ -294,8 +297,8 @@ Ruby interface to libyui
 %build
 # ld.bfd does not accept -latomic_asneeded (OM gcc injects via specs)
 mkdir -p .om-stub
-echo '/* stub for bogus -latomic_asneeded */' | %{__cc} -shared -fPIC -o .om-stub/libatomic_asneeded.so -x c - -nostdlib 2>/dev/null || \
-  echo 'INPUT(-latomic)' > .om-stub/libatomic_asneeded.so
+# Linker script, not a real DSO — a real .so becomes DT_NEEDED
+echo 'INPUT(-latomic)' > .om-stub/libatomic_asneeded.so
 export LIBRARY_PATH="$(pwd)/.om-stub:${LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="$(pwd)/.om-stub:${LD_LIBRARY_PATH:-}"
 export LDFLAGS="-L$(pwd)/.om-stub $(echo ${LDFLAGS:-} | sed -e 's/-latomic_asneeded//g')"
