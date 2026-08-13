@@ -22,7 +22,7 @@
 
 Name:		libyui
 Version:	4.6.2
-Release:	23
+Release:	24
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
