@@ -15,7 +15,7 @@
 # 22's Qt/ncurses libs Require a non-existent libatomic_asneeded.so
 # (OM gcc specs inject -latomic_asneeded). Bootstrap until a clean
 # library is published, then rebuild with bindings.
-%bcond_without bootstrap
+%bcond_with bootstrap
 %global __requires_exclude ^libatomic_asneeded\\.so.*
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
