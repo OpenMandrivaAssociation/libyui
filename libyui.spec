@@ -12,10 +12,9 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-# 22's Qt/ncurses libs Require a non-existent libatomic_asneeded.so
-# (OM gcc specs inject -latomic_asneeded). Bootstrap until a clean
-# library is published, then rebuild with bindings.
-%bcond_with bootstrap
+# Old libyui-qt 4.6.2-25 needs libcgraph.so.8, which graphviz 16 dropped.
+# Bootstrap the libraries first, then rebuild with bindings.
+%bcond_without bootstrap
 %global __requires_exclude ^libatomic_asneeded\\.so.*
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
