@@ -12,16 +12,15 @@
 %define develname_qt %mklibname -d yui-qt
 
 %global _disable_ld_no_undefined 1
-# Old libyui-qt 4.6.2-25 needs libcgraph.so.8, which graphviz 16 dropped.
-# Bootstrap the libraries first, then rebuild with bindings.
-%bcond_without bootstrap
+# 4.6.2-26 published the libraries against graphviz 16; rebuild with bindings.
+%bcond_with bootstrap
 %global __requires_exclude ^libatomic_asneeded\\.so.*
 
 %global optflags %{optflags} -DLIBSOLV_SOLVABLE_PREPEND_DEP
 
 Name:		libyui
 Version:	4.6.2
-Release:	26
+Release:	27
 Summary:	User interface abstraction layer
 Group:		System/Libraries
 License:	LGPLv2+
