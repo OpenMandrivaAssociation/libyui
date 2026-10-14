@@ -61,10 +61,8 @@ BuildRequires:	pkgconfig(libyui-mga)
 BuildRequires:	swig
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(ruby)
-# mono not available on all arches (e.g. aarch64)
-%ifarch x86_64 %{ix86} znver1
-BuildRequires:	pkgconfig(mono)
-%endif
+# cooker mono does not provide mono(mscorlib), so the C# binding
+# cannot be installed. Skip it on every architecture.
 BuildRequires:	perl-devel
 %endif
 
@@ -96,6 +94,7 @@ Summary:	%{summary}
 Group:		System/Libraries
 Provides:	%{name} = %{EVRD}
 Obsoletes:	%{name} < 2.21.1-2
+Obsoletes:	mono-yui < %{EVRD}
 Conflicts:	%{name} < 2.21.1-2
 %rename		%{oldlibname}
 
@@ -255,20 +254,6 @@ Perl interface to libyui
 %files -n perl-yui
 %{_libdir}/perl5/vendor_perl/yui.so
 %{_datadir}/perl5/vendor_perl/yui.pm
-
-#----------------------------------------------------------
-%ifarch x86_64 %{ix86} znver1
-%package -n mono-yui
-Summary:	C# interface to libyui
-Group:		Development/C#
-Requires:	%{libname} = %{EVRD}
-
-%description -n mono-yui
-C# interface to libyui
-
-%files -n mono-yui
-%{_prefix}/lib/mono/yui
-%endif
 
 #----------------------------------------------------------
 %package -n ruby-yui
